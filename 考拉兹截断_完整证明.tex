@@ -1,0 +1,769 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{ctex}
+\usepackage{booktabs,longtable,array}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{definition}
+\newtheorem{conjecture}[theorem]{猜想}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{注}
+\renewcommand{\proofname}{证明}
+
+\title{考拉兹截断：完整证明与开放问题}
+\author{据原始手稿《一个猜想》及修订版整理、补证与总结}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+设 \(T\) 为考拉兹映射，\(n(x)=\lfloor\log_2 x\rfloor+1\) 为 \(x\) 的二进制位长。
+对 \(d\in\mathbb Z^+\) 定义截断算子：自 \(x\) 出发沿 \(T\) 迭代，当“除以 2”的次数首次达到 \(d\,n(x)\) 时停止，其值记为 \(p_d(x)\)，令 \(M_d=\{p_d(x):x\in\mathbb Z^+\}\)。
+本文严格证明以下结果：
+(1) 截断条件对任意 \(x,d\) 在前 \(2d\,n(x)+1\) 步内被满足；
+(2) 对一切 \(x,d\) 有 \(3\nmid p_d(x)\)，从而 \(M_d\cap3\mathbb Z=\varnothing\)；
+(3) 原始手稿的猜想 \(M_d+3\mathbb Z=\mathbb Z^+\ (d\ge2)\) 为假，正确改写为
+\[
+M_d+3\mathbb Z=\{m\in\mathbb Z^+:3\nmid m\}\qquad(d\ge1),
+\]
+并给出完整证明；
+(4) 对集合
+\[
+A=\{m\in\mathbb Z^+:3\nmid m,\ \exists k\ge1,\ 3^k/2<m<3^k\},
+\]
+有 \(A(3^K)=A(3^K-1)=\frac{3^K-1}{2}\)，故
+\[
+\limsup_{N\to\infty}\frac{A(N)}{N}=\frac12,\qquad \liminf_{N\to\infty}\frac{A(N)}{N}=\frac13,
+\]
+自然密度不存在，上下极限的算术平均为 \(5/12\)；本文并给出 \(A(N)\) 的精确公式（命题 \ref{prop:exact}）；
+(5) \(3A+1\subseteq A^{(1)}\)、\(3A+2\subseteq A^{(2)}\)，且两个包含均严格；
+(6) 用两个全程正性的辅助量证明 \(M_1\subseteq A\)；
+(7) 用反向考拉兹构造证明 \(A\subseteq M_1\)，从而
+\[
+\boxed{M_1=A}.
+\]
+由此得到无条件 \(1\notin M_1\)，\(C:=M_1=A\) 的上下极限仍为 \(1/2\) 与 \(1/3\)，并且 \(C\) 不是考拉兹映射的正向不变集（\(T(2)=1\notin C\)）。
+最后列出仍开放的问题：\(\bigcup_{d\ge1}M_d\) 的刻画（原稿提出的反例候选 \(13\) 已被 \(p_2(86)=13\) 否证）与 \(d\ge2\) 的动力学；其中 \(A(N)\) 的 \(O(1)\) 项被完全确定。
+\end{abstract}
+
+\section{定义与记号}
+
+\begin{definition}[考拉兹映射与位长]
+考拉兹映射 \(T:\mathbb Z^+\to\mathbb Z^+\) 定义为
+\[
+T(x)=
+\begin{cases}
+x/2, & x\text{ 偶},\\
+3x+1, & x\text{ 奇}.
+\end{cases}
+\]
+对 \(x\in\mathbb Z^+\)，定义位长
+\[
+n(x)=\lfloor\log_2 x\rfloor+1.
+\]
+它满足
+\[
+2^{n(x)-1}\le x<2^{n(x)}.
+\]
+\end{definition}
+
+\begin{definition}[截断算子]\label{def:trunc}
+设 \(d\in\mathbb Z^+\)，\(x\in\mathbb Z^+\)。自 \(x\) 出发沿 \(T\) 迭代，记 \(a\) 为已执行的 \(3u+1\) 型步骤（奇步）数，\(b\) 为已执行的除以 2 的步数。
+当 \(b\) 首次达到 \(d\,n(x)\) 时停止（由定理 \ref{thm:term}，该时刻必存在，且该步必为除以 2）。此时记
+\[
+q_d(x)=a,\qquad p_d(x)=\text{停止时的值},\qquad M_d=\{p_d(x):x\in\mathbb Z^+\}.
+\]
+\end{definition}
+
+\begin{definition}[集合 \(A\)]\label{def:A}
+定义
+\[
+A=\{m\in\mathbb Z^+:3\nmid m,\ \exists k\ge1,\ 3^k/2<m<3^k\}.
+\]
+对 \(k\ge1\)，记第 \(k\) 层为
+\[
+A_k=A\cap(3^{k-1},3^k).
+\]
+按模 3 分类，记
+\[
+A^{(1)}=\{m\in A:m\equiv1\pmod3\},\qquad
+A^{(2)}=\{m\in A:m\equiv2\pmod3\}.
+\]
+于是 \(A=A^{(1)}\sqcup A^{(2)}\)。
+\end{definition}
+
+\section{截断终止性与模 3 不变量}
+
+\begin{lemma}[奇步计数]\label{lem:ab}
+记 \(a(i)\)、\(b(i)\) 为前 \(i\) 步中奇步与除 2 步的个数（\(a(i)+b(i)=i\)）。则
+\[
+a(i)\le b(i)+1.
+\]
+\end{lemma}
+
+\begin{proof}
+奇数 \(u\) 经 \(3u+1\) 得偶数，故紧接奇步之后的必是除 2 步；相邻两个奇步之间至少夹一次除以 2，故 \(a(i)\le b(i)+1\)。
+\end{proof}
+
+\begin{theorem}[截断条件恒可达]\label{thm:term}
+对任意 \(x,d\in\mathbb Z^+\)，截断条件在前 \(2d\,n(x)+1\) 步之内被满足。
+\end{theorem}
+
+\begin{proof}
+由引理 \ref{lem:ab}，若 \(b(i)=m\) 则 \(i\le2m+1\)。因每次除以 2 使 \(b\) 增 1、奇步不改变 \(b\)，\(b\) 必取到每个非负整数值；取
+\[
+i_0=\min\{i:b(i)=d\,n(x)\},
+\]
+则 \(i_0\le2d\,n(x)+1\)，且由最小性 \(b(i_0-1)=d\,n(x)-1\)，故第 \(i_0\) 步为除以 2。
+\end{proof}
+
+\begin{proposition}[\(q_d\ge1\)]\label{prop:qge}
+对一切 \(x,d\) 有 \(q_d(x)\ge1\)。
+\end{proposition}
+
+\begin{proof}
+反设 \(q_d(x)=0\)。则轨道全程为除以 2，故 \(x=2^t\) 且 \(n(x)=t+1\)，到 \(1\) 恰需 \(t\) 次除以 2。此后若继续迭代，下一步 \(T(1)=4\) 为奇步，与 \(q=0\) 矛盾。因此可达的 \(b\) 值只到 \(t\)，而阈值 \(d\,n(x)=d(t+1)\ge t+1>t\)，截断条件不可能满足。
+\end{proof}
+
+\begin{theorem}[截断值永不整除 3]\label{thm:mod3}
+对一切 \(x,d\in\mathbb Z^+\) 有 \(3\nmid p_d(x)\)，即
+\[
+M_d\cap3\mathbb Z=\varnothing.
+\]
+\end{theorem}
+
+\begin{proof}
+记 \(p=p_d(x)\)，考虑截断的最后一步：它把偶数 \(y\) 变为 \(y/2=p\)。由命题 \ref{prop:qge}，最后一步之前的那一步只有两种可能。
+\begin{itemize}
+\item 情形 (i)：前一步是奇步。即 \(y=3u+1\)（\(u\) 为奇数），于是
+\[
+p=\frac{3u+1}{2}.
+\]
+由 \(3u+1\equiv1\pmod3\) 与 \(2^{-1}\equiv2\pmod3\) 得 \(p\equiv2\pmod3\)，故 \(3\nmid p\)。
+\item 情形 (ii)：前一步是除 2 步。即 \(y=z/2\)，其中 \(z\) 为截断之前最后一次奇步的输出 \(z=3v+1\)。设从 \(z\) 到 \(p\) 共有 \(s\) 次除以 2（由情形假设 \(s\ge2\)）。由于 \(z\) 经 \(s\) 次除法到 \(p\)，故 \(p=z/2^s\)，即 \(z=p\cdot2^{s}\)。由 \(z\equiv1\pmod3\) 与 \(\gcd(2,3)=1\) 得
+\[
+p\equiv2^{-s}\not\equiv0\pmod3.
+\]
+\end{itemize}
+两种情形穷尽了最后一步之前的所有可能（“从未出现奇步”不可能，见命题 \ref{prop:qge}）。故 \(3\nmid p_d(x)\)。
+\end{proof}
+
+\begin{corollary}[手稿猜想的否证]\label{cor:subset}
+\[
+M_d+3\mathbb Z\subseteq\{m\in\mathbb Z^+:3\nmid m\}\subsetneq\mathbb Z^+;
+\]
+特别地 \(3\notin M_d+3\mathbb Z\) 对一切 \(d\)。故手稿的猜想
+\[
+M_d+3\mathbb Z=\mathbb Z^+\qquad(d\ge2)
+\]
+为假。
+\end{corollary}
+
+\section{覆盖定理}
+
+\begin{theorem}[覆盖定理]\label{thm:cover}
+\(2\in M_d\) 对一切 \(d\ge1\)；\(1\in M_d\) 对一切 \(d\ge2\)。因此对一切 \(d\ge1\)，
+\[
+M_d+3\mathbb Z=\{m\in\mathbb Z^+:3\nmid m\}.
+\]
+\end{theorem}
+
+\begin{proof}
+\textbf{\(2\in M_d\)}：取 \(x=2\)（\(n(2)=2\)，阈值 \(2d\)）。轨道
+\[
+2\to1\to4\to2\to1\to\cdots
+\]
+的第 \(j\) 次除以 2 所得之值当 \(j\) 偶时为 \(2\)、\(j\) 奇时为 \(1\)。因 \(2d\) 恒为偶数，故 \(p_d(2)=2\)。
+
+\textbf{\(1\in M_d\)（\(d\) 为偶数）}：取 \(x=1\)（\(n(1)=1\)，阈值 \(d\)）。轨道
+\[
+1\to4\to2\to1\to\cdots
+\]
+的第 \(j\) 次除以 2 所得之值当 \(j\) 奇时为 \(2\)、\(j\) 偶时为 \(1\)。因 \(d\) 为偶数，故 \(p_d(1)=1\)。
+
+\textbf{\(1\in M_d\)（\(d=3\)）}：取 \(x=11\)（\(n(11)=4\)，阈值 \(12\)）。轨道
+\[
+11\to34\to17\to52\to26\to13\to40\to20\to10\to5\to16\to8\to4\to2\to1.
+\]
+第 \(10\) 次除以 2 所得之值为 \(1\)；此后每 \(2\) 次除以 2 回到 \(1\)，故第 \(12\) 次除以 2 所得之值仍为 \(1\)。因此 \(p_3(11)=1\)。
+
+\textbf{\(1\in M_d\)（奇数 \(d\ge5\)）}：取 \(x=7\)（\(n(7)=3\)，阈值 \(3d\ge15\) 为奇数）。轨道
+\[
+7\to22\to11\to34\to17\to52\to26\to13\to40\to20\to10\to5\to16\to8\to4\to2\to1
+\]
+第 \(11\) 次除以 2 已到达 \(1\)，此后每 \(2\) 次除以 2 回到 \(1\)。故第 \(15\) 次除以 2 所得之值为 \(1\)，且一切 \(\ge15\) 的奇数次除以 2 所得之值均为 \(1\)，特别 \(p_d(7)=1\)。
+
+\textbf{\(d=1\)}：取 \(x=25\)（\(n(25)=5\)，阈值 \(5\)）。轨道
+\[
+25\to76\to38\to19\to58\to29\to88\to44\to22.
+\]
+除 2 次数依次为 \(1,2,3,4,5\)，第 \(5\) 次除 2 得到 \(22\)，故 \(22=p_1(25)\in M_1\)。又 \(22\equiv1\pmod3\)，故
+\[
+1=22-21\in M_1+3\mathbb Z.
+\]
+
+\textbf{覆盖等式}：反向包含（\(\subseteq\)）由推论 \ref{cor:subset}；正向包含（\(\supseteq\)）由“每个非 3 倍数与 \(1\) 或 \(2\) 同余模 3”与上述成员性给出。
+\end{proof}
+
+\begin{remark}
+定理 \ref{thm:cover} 对 \(d=1\) 的证明不需要 \(1\in M_1\)；事实上由定理 \ref{thm:M1A} 知 \(1\notin M_1\)，故 \(d=1\) 时只能用 \(1\in M_1+3\mathbb Z\)。
+\end{remark}
+
+\section{集合 \(A\) 的计数与密度}
+
+\begin{proposition}[成员判据]\label{prop:kappa}
+对 \(m\ge2\) 且 \(3\nmid m\)，设 \(3^{\kappa(m)}\) 为最小的 \(\ge m\) 的 3 的幂。则
+\[
+m\in A\iff 2m>3^{\kappa(m)}\iff\exists k:\ 3^k/2<m<3^k.
+\]
+（排除 \(m=1\) 的理由：\(\kappa(1)=0\)，若允许 \(m=1\)，则 \(2m=2>3^0=1\)，会误判 \(1\in A\)，但实际上 \(1\notin A\)。）
+\end{proposition}
+
+\begin{proof}
+若 \(2m>3^{\kappa(m)}\)，取 \(k=\kappa(m)\)：由 \(m\le3^{\kappa(m)}\) 与 \(3\nmid m\) 得 \(m<3^{\kappa(m)}\)，故 \(3^k/2<m<3^k\)。反之设 \(3^k/2<m<3^k\)，则 \(k\ge\kappa(m)\)，故 \(3^{\kappa(m)}\le3^k<2m\)。
+\end{proof}
+
+\begin{theorem}[分层计数]\label{thm:count}
+对一切 \(k\ge1\)，\(\#A_k=3^{k-1}\)，且
+\[
+A(3^K)=\sum_{k=1}^{K}\#A_k=\frac{3^K-1}{2}.
+\]
+\end{theorem}
+
+\begin{proof}
+由命题 \ref{prop:kappa}，对 \(m\in(3^{k-1},3^k)\) 有 \(\kappa(m)=k\)，且 \(3^k/2>3^{k-1}\)，故
+\[
+A_k=\{m\in\mathbb Z^+:3^k/2<m<3^k,\ 3\nmid m\}.
+\]
+区间 \((3^k/2,3^k)\) 内的整数个数为
+\[
+3^k-\lfloor3^k/2\rfloor-1=\frac{3^k-1}{2}.
+\]
+其中 3 的倍数个数为
+\[
+\#\{j:3^k/2<3j<3^k\}=\#\{j:3^{k-1}/2<j<3^{k-1}\}=\frac{3^{k-1}-1}{2}.
+\]
+两者相减即得
+\[
+\#A_k=\frac{3^k-1}{2}-\frac{3^{k-1}-1}{2}=3^{k-1}.
+\]
+求和得
+\[
+A(3^K)=\sum_{k=1}^{K}3^{k-1}=\frac{3^K-1}{2}.
+\]
+又 \(3^K\equiv0\pmod3\) 故 \(3^K\notin A\)，于是 \(A(3^K-1)=A(3^K)\)。
+\end{proof}
+
+\begin{proposition}[\(A(N)\) 的精确公式]\label{prop:exact}
+设 \(K\ge1\)，\(M_0=(3^K+1)/2\)，\(r(N)=N\bmod3\in\{0,1,2\}\)。
+\begin{enumerate}
+\item 当 \(3^{K-1}\le N\le(3^K-1)/2\) 时，
+\[
+A(N)=\frac{3^{K-1}-1}{2}.
+\]
+\item 当 \(M_0\le N\le3^K\) 时，
+\[
+A(N)=\left\lceil\frac{2N}{3}\right\rceil-\frac{3^{K-1}+1}{2}
+=\frac{2N}{3}-\frac{3^K+1}{6}+\frac{r(N)-1}{3}.
+\]
+\end{enumerate}
+特别地
+\[
+\varepsilon(N):=A(N)-\left(\frac{2N}{3}-\frac{3^K+1}{6}\right)=\frac{r(N)-1}{3}\in\left\{-\frac13,\ 0,\ \frac13\right\},
+\]
+即 \(O(1)\) 项被完全确定，且 \(|\varepsilon(N)|\le1/3\)。
+\end{proposition}
+
+\begin{proof}
+由定理 \ref{thm:count} 的证明，\(A\) 在第 \(K\) 层的元素恰为 \((3^K/2,3^K)\) 内的非 3 倍数，其中最小的一个是
+\[
+\left\lfloor\frac{3^K}{2}\right\rfloor+1=\frac{3^K-1}{2}+1=\frac{3^K+1}{2}=M_0 .
+\]
+而 \(A(3^{K-1})=(3^{K-1}-1)/2\)。
+(i) 若 \(N\le(3^K-1)/2\)，则 \(N\) 未达到第 \(K\) 层的任何元素，故 \(A(N)=A(3^{K-1})=(3^{K-1}-1)/2\)。
+(ii) 若 \(M_0\le N\le3^K\)，则
+\[
+A(N)=A(3^{K-1})+\#\{m\in[M_0,N]:3\nmid m\}.
+\]
+精确计数：该区间长度为 \(N-M_0+1\)，其中 3 的倍数个数为
+\[
+t=\left\lfloor\frac N3\right\rfloor-\left\lfloor\frac{M_0-1}{3}\right\rfloor
+=\left\lfloor\frac N3\right\rfloor-\left\lfloor\frac{3^K-1}{6}\right\rfloor .
+\]
+因 \(3^K\equiv3\pmod6\)，有 \(\lfloor(3^K-1)/6\rfloor=(3^K-3)/6\)，故
+\[
+A(N)=\frac{3^{K-1}-1}{2}+N-\frac{3^K+1}{2}+1-\left\lfloor\frac N3\right\rfloor+\frac{3^K-3}{6}
+=N-\left\lfloor\frac N3\right\rfloor-\frac{3^{K-1}+1}{2}.
+\]
+又 \(N-\lfloor N/3\rfloor=\lceil2N/3\rceil=\dfrac{2N+r(N)}{3}\)，且 \(\dfrac{3^{K-1}+1}{2}=\dfrac{3^K+3}{6}\)，代入即得第二式。
+\end{proof}
+
+\begin{theorem}[\(A\) 的密度]\label{thm:density}
+\[
+\limsup_{N\to\infty}\frac{A(N)}{N}=\frac12,\qquad
+\liminf_{N\to\infty}\frac{A(N)}{N}=\frac13;
+\]
+故 \(A\) 的自然密度不存在。本文把“平均密度”定义为上下极限的算术平均（口径见注 \ref{rem:average}），即
+\[
+\frac12\left(\frac12+\frac13\right)=\frac{5}{12}.
+\]
+\end{theorem}
+
+\begin{proof}
+记 \(R(N)=A(N)/N\)，取 \(K\) 使 \(3^{K-1}\le N\le3^K\)。
+
+\textbf{上界 \(\limsup\le1/2\)。}
+若 \(N\le(3^K-1)/2\)，由命题 \ref{prop:exact} (i) 与 \(N\ge3^{K-1}\)，
+\[
+R(N)=\frac{3^{K-1}-1}{2N}\le\frac{3^{K-1}-1}{2\cdot3^{K-1}}<\frac12 .
+\]
+若 \(N>3^K/2\)，写 \(N=\dfrac{3^K-1}{2}+L\)（\(1\le L\le\dfrac{3^K+1}{2}\)）。此时
+\[
+\left\lceil\frac{2N}{3}\right\rceil
+=3^{K-1}+\left\lceil\frac{2L-1}{3}\right\rceil
+=3^{K-1}+\left\lfloor\frac{2L+1}{3}\right\rfloor,
+\]
+故由命题 \ref{prop:exact} (ii)，
+\[
+A(N)=\frac{3^{K-1}-1}{2}+\left\lfloor\frac{2L+1}{3}\right\rfloor
+\le\frac{3^{K-1}-1}{2}+\frac{2L+1}{3}.
+\]
+要证 \(A(N)\le\dfrac N2=\dfrac{3^K-1}{4}+\dfrac L2\)，只需
+\[
+\frac{2L+1}{3}-\frac L2\le\frac{3^K-1}{4}-\frac{3^{K-1}-1}{2}=\frac{3^{K-1}+1}{4}
+\iff \frac{L+2}{6}\le\frac{3^{K-1}+1}{4}
+\iff L\le\frac{3^K-1}{2}.
+\]
+当 \(L\le(3^K-1)/2\)（即 \(N\le3^K-1\)）时成立；端点 \(L=(3^K+1)/2\)（即 \(N=3^K\)）直接由定理 \ref{thm:count} 得 \(A(3^K)=\dfrac{3^K-1}{2}<\dfrac{3^K}{2}\)。故对一切 \(N\) 有 \(A(N)\le N/2\)，即 \(\limsup\le1/2\)。
+另一方面 \(A(3^K-1)=\dfrac{3^K-1}{2}\)，故 \(R(3^K-1)=\dfrac12\) 对一切 \(K\) 成立，于是 \(\limsup\ge1/2\)。故 \(\limsup=1/2\)。
+
+\textbf{下界 \(\liminf\ge1/3\)。}
+若 \(N\le(3^K-1)/2\)，则
+\[
+R(N)=\frac{3^{K-1}-1}{2N}\ge\frac{3^{K-1}-1}{3^K-1}>\frac13 .
+\]
+若 \(N>3^K/2\)，则 \(2N\ge3^K+1\)，由命题 \ref{prop:exact} (ii)，
+\[
+R(N)=\frac{1}{N}\left\lceil\frac{2N}{3}\right\rceil-\frac{3^{K-1}+1}{2N}
+\ge\frac23-\frac{3^{K-1}+1}{3^K+1}
+=\frac{3^K-1}{3(3^K+1)}
+=\frac13-\frac{2}{3(3^K+1)} .
+\]
+两种情形都给出 \(R(N)\ge\dfrac13-\dfrac{2}{3(3^K+1)}\)，故 \(\liminf\ge1/3\)。
+又 \(\left\lfloor\dfrac{3^K}{2}\right\rfloor=\dfrac{3^K-1}{2}\)，且
+\[
+R\!\left(\frac{3^K-1}{2}\right)=\frac{A(3^{K-1})}{(3^K-1)/2}=\frac{3^{K-1}-1}{3^K-1}\longrightarrow\frac13,
+\]
+故 \(\liminf\le1/3\)。综上 \(\liminf=1/3\)。
+\end{proof}
+
+\begin{remark}[三种“平均”口径]\label{rem:average}
+\(5/12\) 是本文对“平均密度”的定义（上下极限的算术平均），它\emph{不}等于比商在一层上的两种自然平均。由命题 \ref{prop:exact}，令相位 \(\theta=\log_3(N/3^{K-1})\in[0,1)\)，则当 \(K\to\infty\) 时
+\[
+\frac{A(N)}{N}\longrightarrow f(\theta)=
+\begin{cases}
+\dfrac12\,3^{-\theta}, & 0\le\theta\le\theta_0,\\[2mm]
+\dfrac23-\dfrac12\,3^{-\theta}, & \theta_0<\theta<1,
+\end{cases}
+\qquad \theta_0=\log_3\frac32,
+\]
+于是
+\[
+\text{对数平均}=\int_0^1f(\theta)\,d\theta=\frac{2\ln2}{3\ln3}\approx0.42062,
+\]
+\[
+\text{Cesàro 平均（对 \(N\) 均匀）}
+=\frac{\int_0^13^\theta f(\theta)\,d\theta}{\int_0^13^\theta\,d\theta}
+=\frac12+\frac12\ln\frac32-\frac14\ln3\approx0.42808 .
+\]
+两者与 \(K\le12\) 的逐点数值（\(0.420619\) 与 \(0.428079\)）吻合。引用本文结果时应注明 \(5/12\) 的口径。
+\end{remark}
+
+\begin{theorem}[三分结构]\label{thm:times3}
+按 \(m\bmod3\) 分解 \(A=A^{(1)}\sqcup A^{(2)}\)，\(A\cap3\mathbb Z=\varnothing\)，且
+\[
+3A+1\subseteq A^{(1)},\qquad 3A+2\subseteq A^{(2)},
+\]
+两个包含均严格。
+\end{theorem}
+
+\begin{proof}
+设 \(a\in A\)，取 \(k\) 使 \(3^k/2<a<3^k\)。对 \(m=3a+1\)：由
+\[
+3^{k+1}/2<3a+1<3^{k+1}
+\]
+得 \(m\in A\)，且 \(m\equiv1\pmod3\)；对 \(3a+2\) 同理。
+严格性：\(19\in A\) 而 \(19=3\cdot6+1\)，但 \(6\notin A\)，故 \(19\notin3A+1\)；\(2\in A\) 而 \(2=3\cdot0+2\)，\(0\notin A\)，故 \(2\notin3A+2\)。
+\end{proof}
+
+\section{\(M_1\subseteq A\) 的完整证明}
+
+\begin{lemma}[辅助量 \(S\) 与 \(R\)，仅用于 \(d=1\)]\label{lem:SR}
+本引理只用于 \(d=1\) 的情形，即 \(b\) 首次达到 \(n(x)\) 时截断。沿截断过程，记 \(a\) 为已执行奇步数，\(b\) 为已执行除 2 步数，\(z\) 为当前值。定义全程辅助量
+\[
+\tilde S=3^a2^{\,n(x)-b}-z,\qquad
+R_{\text{全}}=2z-3^a2^{\,n(x)-b}.
+\]
+则 \(\tilde S\) 全程为正整数，\(R_{\text{全}}\) 全程非负。在最后一步除 2 之前，\(b=n(x)-1\)，当前值 \(z=2p\)，奇步数 \(a=q\)，此时
+\[
+S:=\tilde S=2(3^q-p)>0,\qquad R:=R_{\text{全}}/2=2p-3^q\ge0.
+\]
+又 \(R\) 为奇数，故 \(R\ge1\)，于是
+\[
+\frac{3^q}{2}<p<3^q.
+\]
+\end{lemma}
+
+\begin{proof}
+\textbf{\(\tilde S>0\)：}
+初始 \(a=0,b=0,z=x\)，\(\tilde S=2^{n(x)}-x>0\)。
+奇步：\(z\) 奇，\(z\mapsto3z+1\)，\(a\mapsto a+1\)，则
+\[
+\tilde S'=3^{a+1}2^{n-b}-(3z+1)=3\tilde S-1>0.
+\]
+除 2 步：\(z\) 偶，\(z\mapsto z/2\)，\(b\mapsto b+1\)。此时 \(b<n(x)\)，故 \(n-b\ge1\)，\(\tilde S\) 为偶数，且
+\[
+\tilde S'=3^a2^{n-b-1}-z/2=\tilde S/2>0.
+\]
+故 \(\tilde S\) 全程为正整数。
+
+\textbf{\(R_{\text{全}}\ge0\)：}
+初始 \(a=0,b=0,z=x\)，\(R_{\text{全}}=2x-2^{n(x)}\ge0\)。
+奇步：
+\[
+R_{\text{全}}'=2(3z+1)-3^{a+1}2^{n-b}=3R_{\text{全}}+2>0.
+\]
+除 2 步：\(R_{\text{全}}\) 为偶数，且
+\[
+R_{\text{全}}'=2\cdot\frac z2-3^a2^{n-b-1}=R_{\text{全}}/2\ge0.
+\]
+故 \(R_{\text{全}}\) 全程非负。
+
+\textbf{终态：}
+在最后一步除 2 之前，\(b=n(x)-1\)，\(z=2p\)，\(a=q\)。此时
+\[
+S=\tilde S=3^q\cdot2-2p=2(3^q-p)>0,
+\]
+\[
+R_{\text{全}}=2\cdot2p-3^q\cdot2=2(2p-3^q)=2R\ge0.
+\]
+故 \(R\ge0\)。又 \(R=2p-3^q\)，其中 \(2p\) 偶、\(3^q\) 奇，故 \(R\) 为奇数，于是 \(R\ge1\)。因此
+\[
+2p-3^q\ge1\iff p>\frac{3^q}{2}.
+\]
+结合 \(p<3^q\)，得
+\[
+\frac{3^q}{2}<p<3^q.
+\]
+\end{proof}
+
+\begin{theorem}[\(M_1\subseteq A\)]\label{thm:M1subA}
+\[
+M_1\subseteq A.
+\]
+\end{theorem}
+
+\begin{proof}
+取 \(p\in M_1\)，则存在 \(x\) 使 \(p=p_1(x)\)，截断时 \(b=n(x)\)，\(a=q_1(x)\ge1\)（命题 \ref{prop:qge}）。由引理 \ref{lem:SR} 得
+\[
+\frac{3^q}{2}<p<3^q .
+\]
+又由定理 \ref{thm:mod3} 得 \(3\nmid p\)。取 \(k=q\ge1\)，则
+\[
+\frac{3^k}{2}<p<3^k,
+\]
+故 \(p\in A\)。因此 \(M_1\subseteq A\)。
+\end{proof}
+
+\section{\(A\subseteq M_1\) 与 \(M_1=A\)}
+
+\begin{lemma}[反向奇步可行性]\label{lem:reverse}
+对任意 \(y\in\mathbb Z^+\)，\(3\nmid y\)，存在整数 \(t\ge1\)，使得
+\[
+y2^t\equiv1\pmod3,
+\]
+且
+\[
+y'=\frac{y2^t-1}{3}
+\]
+为正整数、非 3 倍数、奇数。此外满足条件的 \(t\) 可以任意大（若 \(t\) 满足，则 \(t+6q\) 也满足）。
+\end{lemma}
+
+\begin{proof}
+枚举 \(y\bmod9\) 与 \(2^t\bmod9\)（周期 6）：
+\[
+2^0=1,\ 2^1=2,\ 2^2=4,\ 2^3=8,\ 2^4=7,\ 2^5=5 \pmod9.
+\]
+对每个非 3 倍数的 \(y\bmod9\in\{1,2,4,5,7,8\}\)，下表中列出满足 \(y2^t\equiv4\pmod9\) 的最小 \(t\)：
+\[
+\begin{array}{c|cccccc}
+y\bmod9 & 1 & 2 & 4 & 5 & 7 & 8\\\hline
+\text{最小 }t & 2 & 1 & 6 & 3 & 4 & 5
+\end{array}
+\]
+对这些 \(t\) 有 \(y2^t\equiv4\pmod9\)，故 \(y2^t\equiv1\pmod3\)，且 \(y2^t>1\)，于是 \(y'\) 为正整数。又
+\[
+y'=\frac{y2^t-1}{3}\equiv\frac{4-1}{3}=1\pmod3,
+\]
+故 \(3\nmid y'\)；而 \(y2^t\) 为偶数，所以 \(y'\) 为奇数。最后 \(2^6\equiv1\pmod9\)，故 \(t\) 换成 \(t+6q\) 仍满足同余条件。
+\end{proof}
+
+\begin{theorem}[\(A\subseteq M_1\)]\label{thm:AsubM1}
+\[
+A\subseteq M_1.
+\]
+\end{theorem}
+
+\begin{proof}
+给定 \(m\in A\)，取 \(k\ge1\) 使
+\[
+\frac{3^k}{2}<m<3^k,\qquad 3\nmid m.
+\]
+令 \(y_0=m\)。递归构造 \(y_1,\dots,y_k\) 和 \(t_0,\dots,t_{k-1}\)：
+对 \(i=0,\dots,k-1\)，由引理 \ref{lem:reverse} 选择 \(t_i\ge1\)，使得
+\[
+y_i2^{t_i}\equiv1\pmod3,\qquad
+y_{i+1}=\frac{y_i2^{t_i}-1}{3}
+\]
+为非 3 倍数奇数。
+
+\textbf{\(C\) 的一致有界。}
+对 \(i=1,\dots,k-1\)，取满足引理 \ref{lem:reverse} 条件的最小 \(t_i\)。由该引理的枚举可知
+\[
+t_i\in\{1,\dots,6\}\qquad(i=1,\dots,k-1),
+\]
+故 \((t_1,\dots,t_{k-1})\in\{1,\dots,6\}^{k-1}\)。由递推 \(y_{i+1}=(y_i2^{t_i}-1)/3\) 反复代入可得
+\[
+y_k=\frac{m2^{T}-C}{3^k},\qquad T=t_0+t_1+\cdots+t_{k-1},
+\]
+其中 \(C\) 只依赖于 \(t_1,\dots,t_{k-1}\)（\(t_0\) 只出现在 \(m2^T\) 一项中，不进入 \(C\)）。事实上由
+\[
+C_{i+1}=2^{t_i}C_i+3^i,\qquad C_1=1
+\]
+归纳即知 \(C=C(t_1,\dots,t_{k-1})\)。因此存在只依赖 \(k\) 的常数 \(C_0\)，使得无论 \(t_0\) 如何取，都有 \(C\le C_0\)。
+
+\textbf{构造 \(x\)。}
+取 \(t_k=1\)，令
+\[
+x=y_k2^{t_k}=2y_k=\frac{m2^{n}-2C}{3^k},\qquad n=t_0+t_1+\cdots+t_k .
+\]
+（一般地 \(x=(m2^n-C2^{t_k})/3^k\)。）
+上界：
+\[
+x<\frac{m2^n}{3^k}<2^n,
+\]
+因为 \(m<3^k\)。下界 \(x\ge2^{n-1}\) 等价于
+\[
+2^{n-1-t_k}(2m-3^k)\ge C .
+\]
+由于 \(n-1-t_k=t_0+t_1+\cdots+t_{k-1}-1=T-1\)，条件化为
+\[
+2^{T-1}(2m-3^k)\ge C .
+\]
+因为 \(m>3^k/2\)，有 \(2m-3^k\ge1\)，故只需 \(2^{T-1}\ge C\)。而 \(C\le C_0\) 且 \(T\ge t_0\) 可任意大（引理 \ref{lem:reverse} 允许把 \(t_0\) 换成 \(t_0+6j\)），故可取 \(t_0\) 使 \(2^{t_0-1}\ge C_0\)，于是
+\[
+2^{n-1}\le x<2^n,
+\]
+即 \(n(x)=n\)。
+
+\textbf{截断验证。}
+正向轨道为
+\[
+x \xrightarrow{\div 2^{t_k}} y_k
+\xrightarrow{3\cdot+1} z_k
+\xrightarrow{\div 2^{t_{k-1}}} y_{k-1}
+\xrightarrow{3\cdot+1} \cdots
+\xrightarrow{\div 2^{t_0}} y_0=m .
+\]
+其中每一步 \(y_i\)（\(i\ge1\)）是奇数，\(z_i=3y_i+1=y_{i-1}2^{t_{i-1}}\)，故正向考拉兹映射恰好从 \(y_{i-1}2^{t_{i-1}}\) 连续除 2 共 \(t_{i-1}\) 次得到 \(y_{i-1}\)。累计除 2 次数为
+\[
+t_k+t_{k-1}+\cdots+t_0=n,
+\]
+且恰在到达 \(m\) 时达到 \(n=n(x)\)，故截断条件首次满足于该步，于是
+\[
+p_1(x)=m .
+\]
+因此 \(m\in M_1\)，即 \(A\subseteq M_1\)。
+\end{proof}
+
+\begin{theorem}[核心结果]\label{thm:M1A}
+\[
+\boxed{M_1=A}.
+\]
+\end{theorem}
+
+\begin{proof}
+由定理 \ref{thm:M1subA} 与定理 \ref{thm:AsubM1} 直接得到。
+\end{proof}
+
+\begin{corollary}[\(C\) 的密度]\label{cor:Cdensity}
+令 \(C=M_1\)。则
+\[
+\limsup_{N\to\infty}\frac{C(N)}{N}=\frac12,\qquad
+\liminf_{N\to\infty}\frac{C(N)}{N}=\frac13,
+\]
+自然密度不存在，上下极限的算术平均为 \(5/12\)。
+\end{corollary}
+
+\begin{proof}
+由定理 \ref{thm:M1A}，\(C=M_1=A\)，故 \(C(N)=A(N)\)。再由定理 \ref{thm:density} 即得。
+\end{proof}
+
+\begin{corollary}[\(1\notin M_1\)]\label{cor:notinM1}
+无条件地 \(1\notin M_1\)。
+\end{corollary}
+
+\begin{proof}
+由定理 \ref{thm:M1A}，\(M_1=A\)。而 \(1\notin A\)（因 \(3^k/2>1\) 对一切 \(k\ge1\)），故 \(1\notin M_1\)。
+\end{proof}
+
+\begin{remark}[手稿的 \(T(C)=C\) 需要区分两个映射]\label{rem:TCC}
+手稿的 \(T\) 指的是\emph{截断映射} \(p\)（它把 \(\mathbb Z^+\) 映到 \(C\)），而本文的 \(T\) 是考拉兹映射。两个映射下结论不同：
+\begin{itemize}
+\item 对考拉兹映射：\(2\in C\) 但 \(T(2)=1\notin C\)，故 \(T(C)\not\subseteq C\)，\(C\) 不是正向不变集；
+\item 对截断映射 \(p\)：\(p(C)\subseteq C\) 平凡成立（\(p\) 的值域就是 \(C\)，见定义 \ref{def:trunc} 与定理 \ref{thm:M1A}）；反向包含 \(C\subseteq p(C)\) 本文未证明。
+\end{itemize}
+数值上：对每个 \(m\in A\cap[1,2\times10^4]\)，在 \(A\cap[1,10^6]\) 中查找使 \(p_1(x)=m\) 的 \(x\)；\(9841\) 个 \(m\) 中有 \(729\) 个在范围内未被覆盖（最小的是 \(3616\)）。由于更大的 \(x\) 仍可能是见证元，这不构成 \(C\subseteq p(C)\) 的反例，但说明该等式远非显然。
+\end{remark}
+
+\section{结论与开放问题}
+
+\subsection{已严格证明的结论}
+
+\begin{itemize}
+\item 截断条件恒可达（定理 \ref{thm:term}）；
+\item \(3\nmid p_d(x)\)，即 \(M_d\cap3\mathbb Z=\varnothing\)（定理 \ref{thm:mod3}）；
+\item 原始覆盖猜想 \(M_d+3\mathbb Z=\mathbb Z^+\) 为假（推论 \ref{cor:subset}）；
+\item 修正覆盖定理 \(M_d+3\mathbb Z=\{m:3\nmid m\}\) 对一切 \(d\ge1\) 成立（定理 \ref{thm:cover}）；
+\item 集合 \(A\) 的分层计数与密度（定理 \ref{thm:count}、\ref{thm:density}）；
+\item \(A(N)\) 的精确公式与 \(O(1)\) 项（命题 \ref{prop:exact}）；
+\item 三分结构 \(3A+1\subseteq A^{(1)}\)、\(3A+2\subseteq A^{(2)}\)（定理 \ref{thm:times3}）；
+\item \(M_1\subseteq A\)（定理 \ref{thm:M1subA}）；
+\item \(A\subseteq M_1\)（定理 \ref{thm:AsubM1}）；
+\item 核心结果 \(M_1=A\)（定理 \ref{thm:M1A}）；
+\item 无条件 \(1\notin M_1\)（推论 \ref{cor:notinM1}）；
+\item \(C=M_1\) 的密度与 \(A\) 相同（推论 \ref{cor:Cdensity}）。
+\end{itemize}
+
+\subsection{开放问题}
+
+\subsubsection{问题 1：\(\bigcup_{d\ge1}M_d\) 是否等于全体非 3 倍数？}
+
+\textbf{一个已否证的候选。} 曾有猜测“\(13\notin M_d\) 对一切 \(d\)”。该断言为假：取 \(x=86\)，\(n(86)=7\)，阈值 \(2n(86)=14\)，轨道
+\[
+86\to43\to130\to65\to196\to98\to49\to148\to74\to37\to112\to56\to28\to14\to7\to22\to11\to34\to17\to52\to26\to13
+\]
+的第 \(14\) 次除以 2 落在 \(13\) 上，故 \(p_2(86)=13\)，即 \(13\in M_2\)（另有 \(x=87,89,456,458\) 等见证元）。
+注：此前用 \(r=n-D\) 沿逆向树的下界来证明该猜想的思路不成立，事实上 \(r\) 无下界（节点 \(49\) 处 \(r=-4\)、节点 \(43\) 处 \(r=-7\)），故该思路已废弃。
+
+\textbf{现有数据。} 记
+\[
+g_d(r)=\min\{m\in\mathbb Z^+:3\nmid m,\ m\notin\{p_d(x):x\le r\}\}
+\]
+（若不存在则记为 \(+\infty\)）。对 \(d=2\)：
+\[
+g_2(10^2)=7,\quad g_2(10^3)=25,\quad g_2(10^4)=68,\quad g_2(10^5)=268,\quad g_2(10^6)=1060,\quad g_2(3\cdot10^6)=1834,
+\]
+即 \(r\) 跨越 \(4.5\) 个数量级时 \(g_2\) 持续上升，未见停滞。对 \(d\le12\)、\(x\le10^5\) 的联合扫描，在 \(\le300\) 的范围内仅剩 \(268,295\) 未被取到，而这两个值在 \(d=2\)、\(r=10^6\) 时已被取到。
+
+\begin{conjecture}\label{conj:union}
+\[
+\bigcup_{d\ge1}M_d=\{m\in\mathbb Z^+:3\nmid m\}.
+\]
+\end{conjecture}
+
+本文只给出上述数值支持，未能证明；并且“\(g_d(r)\) 关于 \(r\) 单调上升”本身也未证明（对较大的 \(d\)，例如 \(d=12\)，在 \(x\le10^6\) 内会出现长时间停滞，见问题 4）。
+
+需要说明 \(g_d(r)\) 的数据与猜想 \ref{conj:union} 的联系是单向的：固定某个 \(d\) 时 \(g_d(r)\to\infty\) 只说明该 \(d\) 的像集越来越大，并不能推出并集覆盖全体非 3 倍数（覆盖也可能由更大的 \(d\) 完成）；反之，只要存在某个非 3 倍数 \(m\) 对一切 \(d\) 与一切 \(x\) 都取不到，猜想 \ref{conj:union} 即为假。原稿提出的候选 \(13\) 已被 \(13\in M_2\) 排除，目前尚无新的候选。
+
+\subsubsection{问题 2：\(A(N)\) 的 \(O(1)\) 项（已解决）}
+
+由命题 \ref{prop:exact}，当 \(N\in(M_0,3^K]\) 时
+\[
+A(N)=\frac{2N}{3}-\frac{3^K+1}{6}+\frac{r(N)-1}{3},\qquad r(N)=N\bmod3,
+\]
+即 \(O(1)\) 项恰为 \(\dfrac{r(N)-1}{3}\in\{-\frac13,0,\frac13\}\)，其上界为 \(1/3\)（此前写作 \(2/3\)，非最优）。核对 \(N=3^K\)：\(r=0\)，
+\[
+A(3^K)=\frac{2\cdot3^K}{3}-\frac{3^K+1}{6}-\frac13=\frac{3^K-1}{2}.
+\]
+
+\subsubsection{问题 3：\(C=M_1\) 的定性性质}
+
+\begin{definition}[单向截面]
+称 \(C\subseteq\mathbb Z^+\) 为单向截面，若
+\[
+\forall x\in\mathbb Z^+,\ \exists j\ge0:\ T^j(x)\in C.
+\]
+\end{definition}
+
+\begin{proposition}\label{prop:onesided}
+无条件地，\(C=M_1=A\) 是单向截面。
+\end{proposition}
+
+\begin{proof}
+由定义 \ref{def:trunc}，\(x\) 的轨道在截断时经过 \(p_1(x)\)；由定理 \ref{thm:M1A}，\(p_1(x)\in M_1=C\)。取 \(j\) 为截断所需的步数即可。
+\end{proof}
+
+因此“单向截面”性质\emph{不依赖考拉兹猜想}，它不含关于考拉兹困难程度的信息，不宜作为 \(C\) 的价值依据。原稿把它写成“若考拉兹猜想成立则 \(C\) 是单向截面”，反而低估了该性质的平凡性。另一方面，\(C\) 确实不是正向不变的：\(2\in C\) 而 \(T(2)=1\notin C\)（见注 \ref{rem:TCC}）。
+
+\subsubsection{问题 4：\(d\ge2\) 的动力学}
+
+\textbf{初步结果。}
+\begin{itemize}
+\item \(M_2\supseteq\{1,2,4,10\}\)：具体地 \(p_2(11)=4\)，\(p_2(7)=10\)。
+\item \(M_2\ne M_1\)：由推论 \ref{cor:notinM1}，\(1\notin M_1\)；又 \(4\notin M_1\)（\(\kappa(4)=2\)，\(3^2/2=4.5>4\)，故 \(4\notin A=M_1\)）；\(10\notin M_1\)（\(\kappa(10)=3\)，\(3^3/2=13.5>10\)）。而 \(4,10\in M_2\)，故 \(M_2\not\subseteq M_1\)。
+\item \(q_d\) 对 \(d\ge2\) 无界：见命题 \ref{prop:cycle} 及其推论 \ref{cor:qunbounded}。
+\end{itemize}
+
+\begin{proposition}[截断落进循环的充分条件]\label{prop:cycle}
+设 \(x\) 的轨道在第 \(H(x)\) 次除以 2 时首次到达 \(1\)（约定 \(H(1)=0\)；特别地 \(H(2^t)=t\)）。若
+\[
+d\,n(x)>H(x),
+\]
+则 \(p_d(x)\in\{1,2\}\)。
+\end{proposition}
+
+\begin{proof}
+到达 \(1\) 之后轨道为 \(1\to4\to2\to1\to\cdots\)：其中 \(1\to4\) 是奇步，其余都是除以 2，故每次除以 2 的落点在 \(2\) 与 \(1\) 之间交替，永不为 \(4\)。截断的最后一步是除以 2，且其序号 \(d\,n(x)>H(x)\)，故落点属于 \(\{1,2\}\)。
+\end{proof}
+
+（注：\(H(x)\) 的存在性等价于“\(x\) 的轨道到达 \(1\)”，即考拉兹猜想对该 \(x\) 成立；本文不对此作无条件断言。数值核验中出现的 \(x\) 都满足该前提，而推论 \ref{cor:qunbounded} 用到的 \(x=2^t\) 显然满足。）
+
+\begin{corollary}\label{cor:qunbounded}
+对固定 \(x\)，当 \(d>H(x)/n(x)\) 时 \(p_d(x)\in\{1,2\}\)。特别地取 \(x=2^t\)（此时 \(H(2^t)=t\)，\(n(2^t)=t+1\)），则对一切 \(d\ge2\) 与 \(t\ge1\)，截断落在循环内部，除 2 次数达到 \(d(t+1)\) 时奇步数为
+\[
+q_d(2^t)\ge\frac{d(t+1)-t}{2}-1=\frac{(d-1)t+d-2}{2}\longrightarrow\infty\qquad(t\to\infty),
+\]
+即 \(q_d\) 在 \(\{2^t\}\) 上无界。
+\end{corollary}
+
+\textbf{数值核验}（\(x\le20000\)，反例 \(0\) 个）：满足 \(d\,n(x)>H(x)\) 的 \(x\) 的占比为
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+\(d\) & 1 & 2 & 3 & 6 & 12\\
+\midrule
+占比 & \(0.1\%\) & \(7.7\%\) & \(30.2\%\) & \(70.1\%\) & \(100.0\%\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+即 \(d\) 越大，\(p_d(x)\) 越容易被压进 \(\{1,2\}\)，\(M_d\) 越薄：例如 \(x\le10^5\) 时 \(M_{12}\) 在 \([3,10^5]\) 内只有十几个元素，而 \(M_1=A\) 在该区间有近万个元素。这既解释了上表中 \(d=12\) 的长时间停滞，也说明对较大的 \(d\)，“逐个取到”的猜想（猜想 \ref{conj:union} 的逐点版本）越来越不可能成立。
+
+\textbf{仍未解决：} \(M_d\)（\(d\ge2\)）的精确刻画与渐近密度；\(M_d\) 是否无限（对 \(d=1\) 由 \(M_1=A\) 及其密度可知无限，对 \(d\ge2\) 尚无一般论证）；\(\frac1N\sum_{x\le N}q_d(x)\) 的渐近行为；\(M_d\) 关于 \(d\) 的单调性。
+
+\begin{thebibliography}{9}
+\bibitem{lagarias} J. C. Lagarias (ed.), \emph{The Ultimate Challenge: The 3x+1 Problem}, American Mathematical Society, 2010.
+\bibitem{tao} T. Tao, Almost all Collatz orbits attain almost bounded values, \emph{Forum of Mathematics, Pi} \textbf{10} (2022), e12.
+\bibitem{manuscript} 原始手稿《一个猜想》，未刊稿。
+\bibitem{revised} 《考拉兹截断：更正与部分结果》，第五版。
+\end{thebibliography}
+
+\end{document}
