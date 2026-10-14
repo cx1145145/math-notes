@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 构建中间产物
+_build/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 上一版（第五版「更正与部分结果」）的成品二进制：
+# 留在本地避免与终版混淆，可随时用 build_paper_v5.py 重新生成
+考拉兹截断_论文.docx
+考拉兹截断_论文.pdf
+
+# 防伪与校验的临时输出
+final_text.txt
+manifest.json
+preview*/

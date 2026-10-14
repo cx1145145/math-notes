@@ -1,0 +1,199 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{ctex}
+\usepackage{booktabs,longtable,array}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{定义}
+\theoremstyle{definition}\newtheorem{conjecture}[theorem]{猜想}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{注}
+\renewcommand{\proofname}{证明}
+\title{考拉兹截断：更正与部分结果}
+\author{据原始手稿《一个猜想》审读、修订与补证（第五版）}
+\date{\today}
+\begin{document}\maketitle
+\begin{abstract}
+设 $T$ 为考拉兹映射，$n(x)=\lfloor\log_2x\rfloor+1$ 为 $x$ 的二进制位长。对 $d\in\mathbb{Z}^+$ 定义截断算子 $T_d$：自 $x$ 出发沿 $T$ 迭代，当“除以 2”的次数\textbf{首次}达到 $d\,n(x)$ 时停止（该步必为除以 2），其值记为 $p_d(x)$，令 $M_d=\{p_d(x):x\in\mathbb{Z}^+\}$。本文是修正性研究笔记，内容分四类，界限明确。\textbf{定理}：(1) 截断条件对任意 $x,d$ 在前 $2d\,n(x)+1$ 步内被满足（证明不引用考拉兹猜想）；(2) 对一切 $x,d$ 有 $3\nmid p_d(x)$，从而 $M_d\cap3\mathbb{Z}=\varnothing$——这否证了手稿的猜想 $M_d+3\mathbb{Z}=\mathbb{Z}^+\ (d\ge2)$；(3) 对一切 $d$ 有 $2\in M_d$，对一切 $d\ge2$ 有 $1\in M_d$；$d=1$ 时 $1\notin M_1$ 未证，但 $22=p_1(25)\in M_1$ 且 $22\equiv1\pmod3$，故 $1\in M_1+3\mathbb{Z}$，于是对一切 $d\ge1$ 有 $M_d+3\mathbb{Z}=\{m:3\nmid m\}$；(4) 对 $A=\{m\ge2:3\nmid m,\ \exists k\ge1,\ 3^k/2<m<3^k\}$，有 $A(3^K)=A(3^K-1)=\frac{3^K-1}{2}$，故 $\limsup A(N)/N=1/2$、$\liminf A(N)/N=1/3$（$A$ 的自然密度不存在，平均密度 $5/12$）；(5) $3A+1\subseteq A_1$、$3A+2\subseteq A_2$ 且两个包含均严格。\textbf{猜想}：$M_1=A$（第 6 节：本文只证其一方向并给出数值支持）。\textbf{数值观察}：$M_d\ (d\ge2)$ 对非 3 倍数的覆盖率数据。\textbf{更正}：第 1.1 节集中列出本文对初稿与中期版本共九处错误的更正。
+\noindent\textbf{关键词：}考拉兹映射；二进制位长；截断算子；模 3 不变量；自然密度；log-周期函数；MSC 11B83, 37P99
+\end{abstract}
+\section{引言与更正清单}
+考拉兹映射为 $T(x)=x/2$（$x$ 偶）、$3x+1$（$x$ 奇）；考拉兹猜想断言每个正整数最终进入循环 $1\to4\to2\to1$，至今未决。原始手稿《一个猜想》对轨道施加“按二进制位长截断”的规则（定义 \ref{def:trunc}），研究截断值集合 $M_d$，声称 $M_1$ 等于集合 $A$、猜想 $M_d+3\mathbb{Z}=\mathbb{Z}^+\ (d\ge2)$、并称不变集 $C=M_1$ 的自然密度不存在而上下极限为 $\frac12$ 与 $\frac13$。
+本文的结论：手稿的覆盖猜想\textbf{为假}（定理 \ref{thm:mod3}、推论 \ref{cor:subset}），其唯一正确的改写 $M_d+3\mathbb{Z}=\{m:3\nmid m\}$ \textbf{为真且可证}（定理 \ref{thm:cover}）；手稿的密度断言\textbf{为真}（定理 \ref{thm:density}）；而 $M_1=A$ 的两个方向本文只给出其中一个（第 6 节），第二个方向仍为猜想。
+\subsection{更正清单（初稿与中期版本共九处）}
+\begin{itemize}\item \textbf{C1（缩放恒等式）}：初稿断言 $p_d(2^{ds}x)=2^{ds}p_d(x)$。\textbf{为假}：$p_1(2)=2$ 而 $2p_1(1)=4$；$d\ge2$ 时比值一般不是整数。已删除。\item \textbf{C2（错误举例）}：初稿写 $5=p_1(5)$。\textbf{错}：$p_1(5)=2$。$5\in M_1$ 的见证元是 $x=17$。\item \textbf{C3（终止性证明）}：初稿用 $x_i<x/2^{\,i-n(x)}$ 并称“$n(x)$ 步内到达 $1$”。该不等式不成立（$x=7$：$x_4=17>x/2$），且“到达 $1$”即考拉兹猜想。已改用计数论证（定理 \ref{thm:term}）。\item \textbf{C4（$A$ 的定义）}：必须用\textbf{严格}不等式 $3^k/2<m<3^k$；非严格不等式会破坏 $M_1=A$。\item \textbf{C5（$x=2$ 的奇偶）}：初稿称 $p_d(2)=1$（$d$ 偶）。\textbf{错}：第 $2d$ 次除以 2 的序数 $2d$ 恒为偶，故 $p_d(2)=2$ 对一切 $d$。\item \textbf{C6（计数闭式）}：初稿写成 $A(3^K)=\frac{3^K\pm1}{2}$ 等多种互相矛盾的形式。正确为 $A(3^K)=A(3^K-1)=\frac{3^K-1}{2}$（$K\le12$ 已核验）。\item \textbf{C7（$n(x)$ 的写法）}：中期版本曾误写为 $\lceil\log_2x\rceil+1$；它与正确位长不等（例如 $x=3$ 时分别为 3 与 2）。正确写法是 $\lfloor\log_2x\rfloor+1$，并且它等价于 $\lceil\log_2(x+1)\rceil$，与程序 x.bit\_length() 一致；本版统一写 $n(x)=\lfloor\log_2x\rfloor+1$。\item \textbf{C8（“无奇步”情形）}：中期版本在定理 \ref{thm:mod3} 中保留了“轨道中从未出现奇步”的情形。\textbf{该情形不可能发生}：若从未出现奇步则 $x=2^{t}$，到 $1$ 只需 $t$ 次除以 2，而阈值 $d\,n(x)=d(t+1)>t$，截断条件永远无法满足。已删除该情形。\item \textbf{C9（$1\in M_d$ 的见证元）}：中期版本用 $x=7$ 覆盖一切奇数 $d\ge3$。\textbf{对 $d=3$ 不成立}（$p_3(7)=4$，因 $3d=9$ 为奇而轨道第 9 次除以 2 落在 4 上）。正确做法：$d=3$ 用 $x=11$（$p_3(11)=1$），奇数 $d\ge5$ 用 $x=7$（$3d$ 为 $\ge15$ 的奇数，轨道第 $15,17,19,\dots$ 次除以 2 均落在 1 上）。\end{itemize}
+\subsection{本文的结论分类}
+为免混淆，本文对每条陈述标注类别：\textbf{定理}（已给出完整证明）、\textbf{命题}（已证但较简单）、\textbf{猜想}（未证）、\textbf{数值观察}（仅有程序核验）。
+\section{定义与记号}
+记号：$\mathbb{Z}^+$ 为正整数集；$n(x)=\lfloor\log_2x\rfloor+1$（等价于 $x$ 的二进制位数，也等价于 $\lceil\log_2(x+1)\rceil$，$x\ge1$）；$\lfloor\cdot\rfloor$、$\lceil\cdot\rceil$ 为下取整与上取整；$3\nmid m$ 表示 $m$ 不是 3 的倍数；$3\mathbb{Z}=\{3c:c\in\mathbb{Z}\}$。
+\begin{definition}[截断算子]\label{def:trunc}
+设 $d\in\mathbb{Z}^+$，$x\in\mathbb{Z}^+$。自 $x$ 出发沿 $T$ 迭代，记 $a$ 为已执行的 $3u+1$ 型步骤（下称\textbf{奇步}）数、$b$ 为已执行的除以 2 的步数。当 $b$ \textbf{首次}达到 $d\,n(x)$ 时停止（由定理 \ref{thm:term}，该时刻必存在且该步必为除以 2）。此时记
+\[q_d(x)=a,\qquad p_d(x)=\text{停止时的值},\qquad M_d=\{p_d(x):x\in\mathbb{Z}^+\}.\]
+\end{definition}
+\begin{proposition}[$q_d\ge1$]\label{prop:qge}
+对一切 $x,d$ 有 $q_d(x)\ge1$（即轨道中至少出现一次奇步）。
+\end{proposition}
+\begin{proof}
+反设 $q_d(x)=0$。则轨道全程为除以 2，故 $x=2^{t}$ 且 $n(x)=t+1$，到 $1$ 恰需 $t$ 次除以 2，此后无法继续（$1$ 为奇，下一步必为奇步，与 $q=0$ 矛盾）。于是可达的 $b$ 值只到 $t$，而阈值 $d\,n(x)=d(t+1)\ge t+1>t$，截断条件不可能满足。
+\end{proof}
+\begin{remark}[$m\ge2$ 是冗余条件]\label{rem:Ared}
+$A$ 的定义中条件 $m\ge2$ 其实是冗余的：由严格不等式 $3^k/2<m<3^k$ 与 $k\ge1$ 立即得 $m>3/2$，故 $m\ge2$ 自动成立，特别地 $m=1$ 永远不满足（$3/2<1$ 为假）。中期版本曾写“若允许 $m=1$ 则 $1\in A$（取 $k=1$）”，那是把严格不等式误读为 $3/2\le1$；此说明由更正 C4 覆盖。
+\end{remark}
+\begin{definition}[集合 $A$]\label{def:A}
+$A=\{m\in\mathbb{Z}^+:3\nmid m,\ \exists k\ge1,\ 3^k/2<m<3^k\}$。
+\end{definition}
+\begin{proposition}[成员判据]\label{prop:kappa}
+对 $m\ge2$ 且 $3\nmid m$，设 $3^{\kappa(m)}$ 为最小的 $\ge m$ 的 3 的幂。则
+\[m\in A\iff 2m>3^{\kappa(m)}\iff\exists k:\ 3^k/2<m<3^k.\]
+\end{proposition}
+\begin{proof}
+若 $2m>3^{\kappa(m)}$，取 $k=\kappa(m)$：由 $m\le3^{\kappa(m)}$ 与 $3\nmid m$ 得 $m<3^{\kappa(m)}$，故 $3^k/2<m<3^k$。反之设 $3^k/2<m<3^k$，则 $k\ge\kappa(m)$，故 $3^{\kappa(m)}\le3^k<2m$。
+\end{proof}
+\section{终止性与模 3 不变量}
+\begin{lemma}[奇步计数]\label{lem:ab}
+记 $a(i)$、$b(i)$ 为前 $i$ 步中奇步与除 2 步的个数（$a(i)+b(i)=i$）。则 $a(i)\le b(i)+1$。
+\end{lemma}
+\begin{proof}
+奇数 $u$ 经 $3u+1$ 得偶数，故紧接奇步之后的必是除 2 步；相邻两个奇步之间至少夹一次除以 2，故 $a(i)\le b(i)+1$。
+\end{proof}
+\begin{theorem}[截断条件恒可达]\label{thm:term}
+对任意 $x,d\in\mathbb{Z}^+$，截断条件在前 $2d\,n(x)+1$ 步之内被满足。
+\end{theorem}
+\begin{proof}
+由引理 \ref{lem:ab}，若 $b(i)=m$ 则 $i\le2m+1$。因每次除以 2 使 $b$ 增 1、奇步不改变 $b$，$b$ 必取到每个非负整数值；取 $i_0=\min\{i:b(i)=d\,n(x)\}$，则 $i_0\le2d\,n(x)+1$，且由最小性 $b(i_0-1)=d\,n(x)-1$，故第 $i_0$ 步为除以 2。
+\end{proof}
+\begin{remark}\label{rem:noconj}
+本证明不使用考拉兹猜想，也不使用轨道有界性。
+\end{remark}
+\subsection{模 3 不变量}
+\begin{theorem}[截断值永不整除 3]\label{thm:mod3}
+对一切 $x,d\in\mathbb{Z}^+$ 有 $3\nmid p_d(x)$，即 $M_d\cap3\mathbb{Z}=\varnothing$。
+\end{theorem}
+\begin{proof}
+记 $p=p_d(x)$，考虑截断的最后一步：它把偶数 $y$ 变为 $y/2=p$。由命题 \ref{prop:qge}（$q_d(x)\ge1$），最后一步之前的那一步只有两种可能。
+\begin{itemize}\item 情形 (i)：前一步是奇步。即 $y=3u+1$（$u$ 为奇数），于是 $p=\dfrac{3u+1}{2}$。由 $3u+1\equiv1\pmod3$ 与 $2^{-1}\equiv2\pmod3$ 得 $p\equiv2\pmod3$，故 $3\nmid p$。\item 情形 (ii)：前一步是除 2 步。即 $y=z/2$，其中 $z$ 为截断之前最后一次奇步的输出 $z=3v+1$。设 $y$ 到 $p$ 还做了 $s\ge1$ 次除以 2，即 $z=p\cdot2^{s}$。由 $z\equiv1\pmod3$ 与 $\gcd(2,3)=1$ 得 $p\equiv2^{-s}\not\equiv0\pmod3$。\end{itemize}
+两种情形穷尽了最后一步之前的所有可能（“从未出现奇步”不可能，见更正 C8 与命题 \ref{prop:qge}）。故 $3\nmid p_d(x)$。
+\end{proof}
+\begin{corollary}[手稿猜想的否证]\label{cor:subset}
+$M_d+3\mathbb{Z}\subseteq\{m\in\mathbb{Z}^+:3\nmid m\}\subsetneq\mathbb{Z}^+$；特别地 $3\notin M_d+3\mathbb{Z}$ 对一切 $d$。故手稿的猜想“$M_d+3\mathbb{Z}=\mathbb{Z}^+\ (d\ge2)$”为假。
+\end{corollary}
+\section{$d=1$ 与集合 $A$ 的计数}
+\subsection{分层与计数闭式}
+对 $k\ge1$ 记 $A_k=A\cap(3^{k-1},3^k)$。例如 $A_1=\{2\}$，$A_2=\{5,7,8\}$，$A_3=\{14,16,17,19,20,22,23,25,26\}$。
+\begin{theorem}[分层计数]\label{thm:count}
+对一切 $k\ge1$，$\#A_k=3^{k-1}$，且 $A(3^K)=\sum_{k=1}^{K}\#A_k=\dfrac{3^K-1}{2}$。
+\end{theorem}
+\begin{proof}
+\textbf{分层}：由命题 \ref{prop:kappa}，$m\in A\iff\exists k:\ 3^k/2<m<3^k$。对 $m\in(3^{k-1},3^k)$ 有 $\kappa(m)=k$，且 $3^k/2>3^{k-1}$（$k\ge1$），故 $A_k=\{m:3^k/2<m<3^k,\ 3\nmid m\}$。这些区间（$k=1,2,\dots$）两两不交，且 $A$ 的元素恰好落在这些区间内。
+\textbf{计数}：区间 $(3^k/2,3^k)$ 内的整数个数为 $3^k-\lfloor3^k/2\rfloor-1=\frac{3^k-1}{2}$（$3^k$ 为奇数）；其中 3 的倍数个数为 $\#\{j:3^k/2<3j<3^k\}=\#\{j:3^{k-1}/2<j<3^{k-1}\}=\frac{3^{k-1}-1}{2}$。两者相减即得 $\#A_k=3^{k-1}$：
+\[\#A_k=\frac{3^k-1}{2}-\frac{3^{k-1}-1}{2}=3^{k-1}.\]
+\textbf{求和}：$A(3^K)=\sum_{k=1}^{K}3^{k-1}=\frac{3^K-1}{2}$（几何级数）。又 $3^K\equiv0\pmod3$ 故 $3^K\notin A$，于是 $A(3^K-1)=A(3^K)$。
+\end{proof}
+\begin{remark}[数值核对]\label{rem:vals}
+$A(3)=A(2)=1$，$A(9)=A(8)=4$，$A(27)=A(26)=13$，$A(81)=40$，$A(243)=121$，$A(729)=364$，$A(2187)=1093$，$A(6561)=3280$，$A(59049)=29524$，$A(531441)=265720$，全部等于 $(3^K-1)/2$（附录 A 的 A1 栏）。
+\end{remark}
+\subsection{与乘 3 的关系（包含且严格）}
+\begin{theorem}[三分结构]\label{thm:times3}
+按 $m\bmod3$ 分解 $A=A_1\sqcup A_2$（余 1、余 2 两类），$A\cap3\mathbb{Z}=\varnothing$，且
+\[3A+1\subseteq A_1,\qquad 3A+2\subseteq A_2,\]
+两个包含均\textbf{严格}：$A_1\setminus(3A+1)\supseteq\{19,46,55,64,73,\dots\}$，$A_2\setminus(3A+2)\supseteq\{2,5,14,20,41,47,\dots\}$。
+\end{theorem}
+\begin{proof}
+设 $a\in A$，取 $k$ 使 $3^k/2<a<3^k$。对 $m=3a+1$：由 $3^{k+1}/2<3a+1<3^{k+1}$（两边乘 3 再加 1 且 $3^{k+1}/2=3\cdot3^k/2<3a+1$）得 $m\in A$，且 $m\equiv1\pmod3$；对 $3a+2$ 同理。
+\textbf{严格性}：$19\in A$（$27/2<19<27$ 且 $19\equiv1$）而 $19=3\cdot6+1$，但 $6\notin A$（$6$ 被 3 整除），故 $19\notin3A+1$；$2\in A$（$3/2<2<3$）而 $2=3\cdot0+2$，$0\notin A$；$5=3\cdot1+2$ 而 $1\notin A$；$14=3\cdot4+2$ 而 $4\notin A$。
+\end{proof}
+\section{密度与覆盖定理}
+\begin{theorem}[$A$ 的密度]\label{thm:density}
+$\displaystyle\limsup_{N\to\infty}A(N)/N=1/2$，$\displaystyle\liminf_{N\to\infty}A(N)/N=1/3$；故 $A$ 的自然密度不存在，比商按 $\log_3N$ 周期振荡，平均密度为 $5/12$。
+\end{theorem}
+\begin{proof}
+由定理 \ref{thm:count}：$A(3^K)=(3^K-1)/2$，故
+\[A(3^K)/3^K=1/2-1/(2\cdot3^K)\longrightarrow1/2,\]
+给出 $\limsup\ge\frac12$。另一方面，$A$ 在第 $K$ 层内的元素是 $(3^K/2,3^K)$ 中的非 3 倍数，而该层下界处累计值为
+\[A(N)=\sum_{j=1}^{K}N_3\!\left(\frac{3^{j}}{2},\ \min(N,3^{j})\right)+O(1),\qquad N_3(a,b)=\#\{n\in(a,b):3\nmid n\},\]
+取 $N=3^K-1$ 得 $A(3^K-1)=\frac{3^K-1}{2}$，因此
+\[\frac{A(3^K-1)}{3^K-1}=\frac{(3^K-1)/2}{3^K-1}=\frac12.\]
+取 $N=\lfloor3^K/2\rfloor$ 时只有前 $K-1$ 层被计入，$A(N)=A(3^{K-1}-1)+O(1)=\frac{3^{K-1}-1}{2}+O(1)$，于是
+\[A(\lfloor3^K/2\rfloor)/\lfloor3^K/2\rfloor=1/3+O(3^{-K}),\]
+给出 $\liminf\le\frac13$；把上述两条估计与层长度的几何衰减（第 $j$ 层 $(3^j/2,3^j)$ 的长度为 $3^j/2$，故 $j$ 小的层贡献可忽略）合起来即得上下极限分别为 $\frac12$ 与 $\frac13$。平均值由 $\log_3N$ 的一个周期上的积分给出 $5/12$。
+\end{proof}
+\begin{remark}[数值核对]\label{rem:A9}
+附录 A 的 A9 栏（实际运行输出）：在 $3^7\le N\le3^{12}$ 上 $\min A(N)/N=0.333232$（最小点 $N=3280=\lfloor3^8/2\rfloor$），$\max A(N)/N=0.500000$（最大点 $N=531440=3^{12}-1$）；在 $N=2\cdot3^{K-1}$ 处（$K=12$）比商为 $0.416665$，趋于 $5/12$。若把扫描范围放宽到 $N<3^7$，最小值出现在 $N=1093=\lfloor3^7/2\rfloor$，此时 $A(1093)=A(3^6)=364$、比商 $364/1093=0.333028$；表 A.1 的 A9 栏只记录程序实际扫描区间。三者与定理 \ref{thm:density} 一致。
+\end{remark}
+\begin{theorem}[覆盖定理]\label{thm:cover}
+$2\in M_d$ 对一切 $d\ge1$；$1\in M_d$ 对一切 $d\ge2$（$d=1$ 时 $1\notin M_1$ 未证，见推论 \ref{cor:notinM1}，但这不影响下面的覆盖等式）。因此对一切 $d\ge1$，
+\[M_d+3\mathbb{Z}=\{m\in\mathbb{Z}^+:3\nmid m\}.\]
+\end{theorem}
+\begin{proof}
+\textbf{$2\in M_d$}：取 $x=2$（$n(2)=2$，阈值 $2d$）。轨道 $2\to1\to4\to2\to1\to\cdots$ 的第 $j$ 次除以 2 所得之值当 $j$ 偶时为 $2$、$j$ 奇时为 $1$。因 $2d$ 恒为偶数，故 $p_d(2)=2$。
+\textbf{$1\in M_d$（$d$ 为偶数）}：取 $x=1$（$n(1)=1$，阈值 $d$）。轨道 $1\to4\to2\to1\to\cdots$ 的第 $j$ 次除以 2 所得之值当 $j$ 奇时为 $2$、$j$ 偶时为 $1$。因 $d$ 为偶数，故 $p_d(1)=1$。
+\textbf{$1\in M_d$（$d=3$）}：取 $x=11$（$n(11)=4$，阈值 $12$）。轨道 $11\to34\to17\to52\to26\to13\to40\to20\to10\to5\to16\to8\to4\to2\to1$ 恰在第 12 次除以 2 时到达 $1$，故 $p_3(11)=1$。
+\textbf{$1\in M_d$（奇数 $d\ge5$）}：取 $x=7$（$n(7)=3$，阈值 $3d\ge15$ 为奇数）。轨道 $7\to22\to11\to34\to17\to52\to26\to13\to40\to20\to10\to5\to16\to8\to4\to2\to1$ 在第 $15$ 次除以 2 时到达 $1$；此后每 2 次除以 2 回到 $1$，故第 $15,17,19,\dots$ 次（即一切 $\ge15$ 的奇数次）除以 2 所得之值均为 $1$，特别 $p_d(7)=1$。
+\textbf{$d=1$}：本文不需要断言 $1\notin M_1$。已有 $22=p_1(25)\in M_1$ 且 $22\equiv1\pmod3$，故 $1=22-21\in M_1+3\mathbb{Z}$。
+\textbf{覆盖等式}：反向包含（$\subseteq$）由推论 \ref{cor:subset}；正向包含（$\supseteq$）由“每个非 3 倍数与 $1$ 或 $2$ 同余模 3”与上述 $1$（对 $d\ge2$）及 $1\in M_1+3\mathbb{Z}$、$2$ 的成员性给出。
+\end{proof}
+\begin{remark}\label{rem:cover}
+定理 \ref{thm:cover} 是手稿猜想唯一需要修改之处：把 $\mathbb{Z}^+$ 换成 $\{m:3\nmid m\}$。它对 $d=1$ 同样成立。
+\end{remark}
+\section{猜想与未决问题}
+\begin{conjecture}[$M_1=A$]\label{conj:M1A}
+$M_1=A$，即 $\{p_1(x):x\in\mathbb{Z}^+\}=\{m:3\nmid m,\ \exists k\ge1,\ 3^k/2<m<3^k\}$。
+\end{conjecture}
+\textbf{已知}：包含 $M_1\subseteq A$ 有数值支持（$x\le2\times10^5$ 时 $p_1(x)\in A$ 无反例，附录 A 的 A4 栏），其证明可用辅助量 $S=3^a2^{\,n(x)-b}-z$：每次奇步 $S\mapsto3S-1$、每次除以 2 $S\mapsto S/2$，$S$ 恒为正整数，终态给出 $S=3^{q}-p>0$，即 $p<3^q$；再用“把 $3x+1$ 换成 $3x$”的估计给出下界 $3^q/2<p$，合起来得 $p\in A$（\textbf{本文未补齐下界那一步}）。反向包含 $A\subseteq M_1$ 依赖“反向考拉兹树”构造可达性（可任意乘 2；若 $y\equiv1\pmod3$ 可反向做 $(y-1)/3$，再用经典方程 $\frac{y}{2^b}=\frac{p}{3^a}-\frac{C}{3^a2^b}$ 保证首项为整数），\textbf{本文未给出独立证明}。因此本版把 $M_1=A$ 列为猜想。
+\begin{corollary}[$1\notin M_1$，条件性]\label{cor:notinM1}
+若猜想 \ref{conj:M1A} 成立，则由 $1\notin A$（注 \ref{rem:Ared}）立得 $1\notin M_1$。本文未能无条件证明 $1\notin M_1$。
+\end{corollary}
+\begin{itemize}\item \textbf{问题 1（$M_1\subseteq A$ 的严格证明）}：需补下界 $3^q/2<p$ 的辅助量与逐步正性验证（见上）。\item \textbf{问题 2（$A\subseteq M_1$）}：需给出反向构造的完整算法，并证明所构造首项恰满足截断阈值。\item \textbf{问题 3（$M_d$ 的精确刻画，$d\ge2$）}：是否 $\bigcup_{d\ge1}M_d=\{m:3\nmid m\}$？数值观察：在 $p\le2\times10^4$ 范围内，$M_1$ 覆盖非 3 倍数约 $56\%$、$M_2$ 约 $58\%$、$M_3$ 约 $38\%$、$M_6$ 约 $9\%$；覆盖率随 $d$ 下降源于见证元规模爆炸，不足以判定。\item \textbf{问题 4（不变集）}：手稿称 $C=M_1$ 满足 $T(C)=C$。本文未处理。\item \textbf{问题 5（$A(N)$ 的 $O(1)$ 项）}：第 5 节给出一阶估计；$O(1)$ 项的确切界可进一步精确化。\end{itemize}
+\appendix
+\numberwithin{table}{section}
+\section{可复现验证程序}
+程序见 code/verify\_paper.py（纯标准库）。它按定义 \ref{def:trunc} 与命题 \ref{prop:kappa} 逐项计算。\textbf{程序只是核验，不构成证明。}
+\begin{table}[htbp]\centering\small
+\caption{核验项目与结果（实际运行输出，对应程序输出 A0–A10）}
+\label{tab:verify}
+\begin{tabular}{lll}\toprule
+核验项 & 范围 & 结果 \\ \midrule
+A0 位长三定义一致（x.bit\_length()、$\lfloor\log_2x\rfloor+1$、$\lceil\log_2(x+1)\rceil$） & $x\le10^5$ & 不一致 0 \\
+A1 闭式 $A(3^K)=A(3^K-1)=(3^K-1)/2$ & $K\le12$ & 全部 OK \\
+A2 分层计数 $\#A_k=3^{k-1}$ & $k\le10$ & 全部 OK \\
+A3 每层 = $(3^k/2,3^k)$ 内非 3 倍数 & $k\le10$ & 全部一致 \\
+A4 $p_1(x)\in A$ & $x\le2\times10^5$ & 反例 0 \\
+A5 定理 \ref{thm:mod3}：$3\nmid p_d(x)$ & $x\le2000,\ d\le12$ & 反例 0 \\
+A6 命题 \ref{prop:qge}：$q_d(x)\ge1$ & $x\le5000,\ d\le12$ & 反例 0 \\
+A7 定理 \ref{thm:cover}：$M_d\cap\{1,2,3\}$ & $d\le12$ & $d=1:\{2\}$；$d\ge2:\{1,2\}$ \\
+A8 见证元：$p_d(2)=2$（一切 $d$）；$1\in M_d$：$d=3$ 用 $x=11$，奇 $d\ge5$ 用 $x=7$ & $d\le14$ & 全部成立 \\
+A9 比商极值 & $3^7\le N\le3^{12}$ & $\min=0.333232$（$N=3280$）；$\max=0.500000$（$N=531440$） \\
+A10 定理 \ref{thm:times3} 的严格性 & $\le3000$ & $A_1\setminus(3A+1)$ 最小元 19；$A_2\setminus(3A+2)$ 最小元 2 \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[htbp]\centering\small
+\caption{$A(N)$ 在 3 的幂处的值（全部等于 $(3^K-1)/2$）}
+\label{tab:Apow}
+\begin{tabular}{rrrr}\toprule
+$K$ & $3^K$ & $A(3^K)$ & $(3^K-1)/2$ \\ \midrule
+1 & 3 & 1 & 1 \\
+2 & 9 & 4 & 4 \\
+3 & 27 & 13 & 13 \\
+4 & 81 & 40 & 40 \\
+5 & 243 & 121 & 121 \\
+6 & 729 & 364 & 364 \\
+7 & 2187 & 1093 & 1093 \\
+8 & 6561 & 3280 & 3280 \\
+9 & 19683 & 9841 & 9841 \\
+10 & 59049 & 29524 & 29524 \\
+11 & 177147 & 88573 & 88573 \\
+12 & 531441 & 265720 & 265720 \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{remark}\label{rem:Averify}
+表 \ref{tab:verify} 中“反例数 0”仅表示在所列范围内未发现反例，不构成对相应定理的证明。
+\end{remark}
+\begin{thebibliography}{9}
+\bibitem{lagarias} J. C. Lagarias (ed.), The Ultimate Challenge: The 3x+1 Problem, American Mathematical Society, 2010.
+\bibitem{tao} T. Tao, Almost all Collatz orbits attain almost bounded values, Forum of Mathematics, Pi 10 (2022), e12.
+\bibitem{manuscript} 原始手稿《一个猜想》，未刊稿。
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,75 @@
+[000] 一个关于考拉兹数列的一个有趣的（甚至在某些角度上来看有历史首创性的）截断法则，以及生成的一个有趣的数集，以及修改参数之后产生的一个新猜想。
+[001] A New Conjecture about Collatz Sequence 
+[002] 作者首先郑重声明：作者没有证明考拉兹猜想。作者绝不干民科行为，接受基于数学事实的质疑，每一步推导都是经过本人亲自验算的，不存在刻意忽略严谨推导的行为，但有可能算错或者粗心。如果存在不当的跳步/省略/语义不精准导致不知道我在干啥，欢迎指出，我不能过多耽误与浪费你们这种本身就有很多任务的人的时间。AI参与了部分工作，主要是帮我想证明一些结论的思路，以及一些专业术语（主要是中文里面的）的定义的介绍。但是每一步推导我都是自己审核了的，并在必要之处重新用我的语言重新表述。（AI的语言有时很晦涩，也经常跳步或者进行不严谨的论证或者自己根本就没想透彻就输出答案）
+[003] 目前标题只提到了这个新猜想，是因为文章中另外的东西的价值该如何定性有点困难，详见后文。也希望教授帮忙鉴定这个东西的意义，同时亲手尝试解决猜想，以确认这个猜想是否真正有猜想的难度（同时可以提供更强的算力支持）。Deepseek等AI均失败了。此文也不仅仅展示了这个新的猜想，还有一些可能比较有独创性的小发现。
+[004]                      Junjie Zeng,Jilin University,China   
+[005]                     Email address:18323072752@163.com（可能后续改为学校给我配的那个邮箱）
+[006] 本文以英文为主，主要是考虑方便后续直接修改语言后发预印本与刊物，到时候不必从头到尾重新翻译。Abstract.
+[007] This paper presents a new mathematical conjecture regarding Collatz Sequence. 
+[008]    The definition of Collatz operation must be presented first.The initial number is a positive integer.If the number is even,we divide it by 2;if the number is odd,we multiply it by 3 and add 1 to it.The result is the number used in the next operation.The rule of every operation is all the same.Operate it repeatedly.The most famous conjecture about it is it will eventually come into the cycle ”1→2→4”.I will present another quality that may satisfy Collatz sequence as a conjecture.
+[009] Firstly we define a set$ M$.
+[010] To define$ M$,we need to define function $f$ with its domain being$ ℤ+$,and its independent variable being $x$.
+[011] For $x∈ℤ+$,let $n(x) $be the integer which satisfy$ 2n−1≤x<2n
+[012] Apply the Collatzoperation to $x$, Let $qx$ be the number of application of the $'3x+1'$ operation after exactly $nx$ halving steps have occurred(The last step applied must be the halving operation).And let what $x$ turns into after exactly （下面的d不是微分，就是一个符号，最开始用的k，结果后面发现它与下文的另一个也用的k的量撞上了，但这时文章已经基本成型，于是就1改为了d这个不怎么常用的字母）$dnx$( $k≥1,k∈ℤ+)$halving steps have occurred(The last step applied must be the halving operation) be $px$.(Example:$x=99,nx=7,px=7,$)The set $M$ is the range of function $px$.If $d$=1,$M$ is               $A=p∈ℤ+|3∤p,∃k∈ℤ+,3k2<p<3k$   
+[013]       p(x)是我提出的量。我最初并不是在研究p（x）的值域。至于中间这个过程，这里可以不说也没什么。后面我想到了用程序验算去跑m从1开始遍历到很大的数时p的可能值。我按照程序验算的结果抓出了一些m遍历的值都从1取到很大了还没有出现作为p的正整数，并让deepseek证明为何它们取不到。将这些值一个一个丢给deepseek之后，突然在某一次输入了一个值的时候，deepseek发现了$∃k∈ℤ+,3k2<p<3k$ 这个必要条件并成功证明，并再次解决了先前所有的没取到的值的没取到的原因的论证。我猜想这是一个充要条件。Deepseek没能论证到充分性，最终这由google的Gimini解决了。不过它的原文的写法对读者很不友好，而且跳步严重，我把它重新写了一遍，好理解多了。就在后文。                                
+[014] The conjecture is,if $k$=2 or any integer that isn’t 1,M is  set $B=x∈ℤ+∣3∤x$.
+[015] 在1倍n问题被解决之后，我想到了改参数，改1倍n为2n等数字，并使用程序验证m从1遍历到很大的数的时候取到了哪些p，结果显示，生成的那些p里面比较小的那一些数字，如果加上3的倍数，那就简直就连起来了。如果扩大m的遍历范围，能在加上3的倍数时“连起来”的范围就更大了。因此提出该猜想。该猜想已经得到我的电脑算力之下的一定的数据支撑，就是当你慢慢扩大m的遍历范围时，慢慢地，10以内，20以内，100以内…,非3倍数的正整数都集齐了。起初Gimini谎称它证明出来了k=2情形，而后又换了个方法声称解决了正整数k大于2的情况。但多亏我认真细审了它的推导，发现它整的是伪证。向Gimini指出错误点后，它也承认它没能力修补论证漏洞。而我也没能给它补上。
+[016] $d$=1:Firstly to prove$ M∈A
+[017] Exactly after any ‘*3+1’ step is applied,The number can’t be divided by 3,and any halving step can’t make it divided by 3.So,unless all the steps are halving steps,it can’t be divided by 3.If so,according to$ 2[n(x)−1]≤x<2n(x)$,
+[018]  $0<p(x)=x2n(x)<1$,it’s impossible.So $3∤p(x).
+[019] Take an arbitrary 𝑥 ∈$ℤ+.$Run the Collatz process starting from 𝑥. Introduce two counters: let 𝑎 count how many times the 3x+1 rule has been applied, and let 𝑏 count how many halving steps have occurred. Initially 𝑎 = 0, 𝑏 = 0 and the current value is z = 𝑥..We stop the process exactly when 𝑏 = 𝑛(x) and the last operation performed was a halving step. At that instant 𝑎 = 𝑞(x), z= 𝑝(x), and we must show 𝑡(x) =$3q(x)$ – 𝑝(x) > 0.
+[020] Define a auxiliary quantity $S=3a⋅2[n(x)−b]−z.$ If a 3x+1 step accurs,z is odd, so is 𝑆, 𝑆 is multiplied by 3 and is reduced by 1.If a halving step accurs,y is even,so is 𝑆, 𝑆 is divided by 2.At first 𝑆 is an positive integer,and every changing step of 𝑆 insure that if the initial number is a positive integer,it will remain a positive integer if a changing step accurs.So,𝑆 will be a positive integer from beginning to end.Finally what $S$ turns into is t,so $t $is a positive number,and thus$ p(x)<3q(x)$.
+[021] If we change all the ‘*3+1’ step into ‘*3’,and change m into $2n(x)−1$,m decreased,and is changed into $3q(x)2$.Now,we have $3q(x)2<p(x)<3q(x)$.Thus,we can conclude that $∃k∈ℤ+,3k2<p(x)<3k$,and then $M⊆A.
+[022] Secondly to prove $A$⊆M
+[023] Let the number of  ‘*3+1’ operations in a finite initial segment of a Collatz sequence whose last term is $p∈A$ be $a$ ,and that of halving steps be $b$. 
+[024] Let $sk$ be the number of halving steps applied strictly before the 
+[025] $k$-th odd step.Let the first term be $y$.We have the classical equation:
+[026]                            $y2b=p3a−CV3a2b
+[027]                    $C(V)=l=1b3a−l2sl
+[028] 
+[029] where 
+[030] $0≤s1≤s2≤⋯≤sa≤b−1
+[031]         此公式，AI说是可以直接引用的，在考拉兹研究领域里面是非常经典的结论
+[032] 
+[033] Let $L$ be the numbers of consecutive even steps at the end of the operation.
+[034] For any $u∈{d∈A|d≥1}$ . There exist the only number $w$ satisfying $ 3w2<u<3w.$According to the Properties of the reverse Collatz tree（一个考拉兹逆向树的性质，就是从任意一个正整数开始构造逆向考拉兹，可以构造的逆向乘3加1操作与逆向除以2操作个数均无上限，用初等方法可以快速证明，证明难度不大；这种逆向考拉兹构造中，可以有办法让第一次逆向乘三加一操作之后再也没有任何3的倍数出现，而在用这样的办法构造逆向考拉兹时，在可以停止并将目前的数字作为一个合理的m值的时候，一定已经经过了第一次逆向乘三加一操作，因为正向推的时候，一定要经过至少一次乘3加1操作才能到达截断的值p，这一点后面要用），a finite initial segment of a Collatz sequence ending at term $u$ can have its $a$ be any positive integer ,and whatever number $a$ is,meanwhile, $L $can be an arbitrarily large positive integer .So there exist at least one finite initial segment of a Collatz sequence whose last term is $u$ with its a=$h$ and its $L$ satisfying $2−L≤u3h$-$12$.For these consequences, Let the first term be $r$,
+[035] We have$​ sl≤b−L−a−l
+[036] And thus$   CV3a2b≤l=1b3a−l2b−L−a−l3a2b≤2−L·(22a−23a) ≤2−L≤u3h$-$12
+[037] Because $3h2<u<3h$,we have $p3a=p3h∈(12,1)$.And since$r2b=u3a−CV3a2b,$we have $r2b<12$.Because $ CV3a2b≤p3k$-$12$ and $r2b=u3a−CV3q2b,$we have $1>r2b≥12.$So for any $p∈A,$there exist$ r,pr=p.$So$ A⊆M
+[038] And thus $A=M$.
+[039] Put all the element in one set $D$ in function $p$,and what the results combine is set $E$.And we call the mapping $D→E$ $T$.
+[040] We have proved that T$(ℤ+)=C,$ we can even prove$ TC=C$.这个东西我是先输入给了Gimini,输入的问题等价于，T（C）是什么。它直接证明了就是C。Gimini使用了“外尔均分定理”，我给这一段找出了初等方法。
+[041] Firstly to prove $TC⊆C$.
+[042] $TC⊆TR=C
+[043] Secondly to prove $C⊆TC
+[044] For every element $w$ in set $C$, ∃v∈{v∈R|$3∤v}$,p(v)=w.（这就是前面说的“后面要用”的地方—我们有办法找到v还让它不是3的倍数）
+[045] Actually,for any positive integer c,if p(v)=w,we have p(v$2c$)=w  这非常容易证明
+[046] If $v$ isn’t a member of set $C$（ 如果是C的元素，那就更不用担心了）∃j$∈ℤ+$, $v<3j2<3j
+[047] We assume that ∃o$∈ℤ+$, v$2o$<$3j2<3j<$v$2o+1
+[048] We have $3j(3j/2)$<$v2o+1v2o
+[049] Actually the left side and the right side are both 2.
+[050] So the assumption is false.But ∃α，β$∈ℤ+，$v$2α$<$3j2<3j<$v$2β$（α一定存在，由j的定义）（这时你把β取大一点就行了）
+[051] （显然，既然v乘以2的正整数次方系列一定“经过”了某个$3j2，3j的“两侧”，又不能完全不在里面落脚，直接跨过去，那么就一定会在里面$落脚，这是一个非常简单的问题，但是我不知道作为论文是不是要加上一些论述）
+[052] So，∃γ$∈ℤ+，v∈{v∈R|3∤v}，so that $p(v$2γ$)=w and v$2γ
+[053] So，C=T（C）
+[054] 集合C的自然密度，没有一个确定的值，其lim sup与lim inf分别为1/2与1/3.这个东西我是了解了相关的严谨定义的，我审核了AI的推导的。这个东西推导起来不难，只是过程麻烦。
+[055] 目前，关于集合C究竟有没有独创性，我个人弄不清楚。主要原因是我不懂专业词汇，之前只能靠AI。Gimini给我说，它是一个“全局吸引不变集”（如果一次操作不记作一次考拉兹操作而是p操作），“非平凡的”，“庞加莱截面”，deepseek又说应该是什么“回复集”（如果一次操作是单次考拉兹操作），不叫“全局吸引不变集”，也说了“庞加莱截面”。两者均表达了这可能具有一定的历史首创性（基于初始数的二进制法则弄出来（我这个截断法则很可能是首创，而且截断之后得到的“庞加莱截面”还有点有趣）的有一定特点的“庞加莱截面”）。由于当下AI的谄媚性极强，在我的不同态度的质问之后反复切换态度，以至于我现在没法信赖它们。我感觉C应该是一个比较独特的集合，可能在某些角度上还有一定的历史首创性，比如，这应该是一个“密度”比较低的“庞加莱截面”，“庞加莱截面”（有两个平凡的分别是奇数与偶数集合），而且还有“T（R）=C之后，将T再次运用到C上出现了T(C)=C这种东西”的独特的性质，但不知道是不是人类已经确认的最低的。另外，考拉兹截断应该是目前有的研究方向，但是我这种截断方式可能是首创，而且，截面还有点意思，不是一团乱麻，论证起来为什么截面是这样也没有那么简单，不是那么显然的结论，即使不需要高等数学出马。但，由于我不够专业，我确实没法鉴定这些东西的价值（所以目前我还没打算写那个密度的推导）。
+[056] 如果为了获得”密度”更小的”庞加莱截面”，还可以引入由所有C的元素的两倍组成的集合D（所有C中的元素生成之前都经历了至少一次除以二操作）。它的lim sup与lim inf变成了1/4与1/6.甚至，对于C里面的奇数，我们不使用逆向的乘以2操作，而是正向地乘3加1，所得密度会更小.但是，T（D）=C
+[057] 个人观点，考拉兹数列完全可能拥有其他的有趣的性质，没必要搞“{1，2，4}循环至上“。由于考拉兹数列目前没有找到实际的物理意义，研究考拉兹数列功利意义不强。主要还是体现在“好玩”上面，或者只是一种智力挑战游戏，就像当时那些搞非欧几何的人一样。如果非要说可能有什么用的话，也许是研究过程中发明了一些有实用价值的数学方法，或者是科幻一点，将来能发现考拉兹的实际意义,情况可能就不一样了。但是这些东西的预期投入产出比，恐怕比研究AI，芯片，新能源之类的还是低一些）落入{1，2，4}循环的这个问题其实本身功利价值不强。如果集合C是一个有趣的集合，那也许就会足够“好玩”，那么这种“庞加莱截面”就会更受重视，而我提出的新猜想就是这种关于该截面的一个变体的问题，那么自然会吸引到数学界的注意，因此可能会被认为是有价值的猜想。这就是我探讨集合C的意义。C本身也许也很有趣，也许也有独立于为猜想赋能的其他意义。
+[058] 
+[059] 
+[060] 
+[061] 
+[062] 
+[063] 
+[064]             
+[065] 
+[066] 
+[067] 
+[068] 
+[069] 
+[070] 
+[071] 
+[072] 
+[073]                    
+[074] 
