@@ -175,7 +175,7 @@ python verify_pdf.py --input "考拉兹截断_完整证明.pdf"
   author       = {Zeng, Junjie},
   year         = {2026},
   note         = {预印本（未同行评审）。含不可见防伪水印与可复现数值验证脚本},
-  howpublished = {\url{https://github.com/<your-account>/<your-repo>}}
+  howpublished = {\url{https://github.com/cx1145145/math-notes}}
 }
 ```
 
